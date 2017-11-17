@@ -1,0 +1,208 @@
+SQL> select SYSDATA
+  2  from dual;
+select SYSDATA
+       *
+ERROR at line 1:
+ORA-00904: "SYSDATA": invalid identifier 
+
+
+SQL> select SYSDATE
+  2  from dual;
+
+SYSDATE                                                                         
+---------                                                                       
+17-NOV-17                                                                       
+
+SQL> SELECT CURRENT-DATE
+  2  FROM DUAL;
+SELECT CURRENT-DATE
+       *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> CURRENT-DATE
+SP2-0734: unknown command beginning "CURRENT-DA..." - rest of line ignored.
+SQL> SELECT CURRENT_DATE
+  2  FROM DUAL;
+
+CURRENT_D                                                                       
+---------                                                                       
+17-NOV-17                                                                       
+
+SQL> SELECT TO_CHAR(SYSDATE, 'HH:MI:SS')
+  2  FROM DUAL;
+
+TO_CHAR(                                                                        
+--------                                                                        
+11:45:44                                                                        
+
+SQL> SELECT TO_CHAR(SYSDATE, 'DAY/DD/MM/YY')
+  2  FROM DUAL;
+
+TO_CHAR(SYSDATE,'DAY/DD/MM/YY')                                                 
+---------------------------------------------                                   
+FRIDAY   /17/11/17                                                              
+
+SQL> SELECT TO_CHAR(SYSDATE, 'HH24:MI:SS')
+  2  FROM DUAL;
+
+TO_CHAR(                                                                        
+--------                                                                        
+11:50:16                                                                        
+
+SQL> SELECT TO_CHAR(SYSDATE, 'HH24:MI:SS') HORA
+  2  FROM DUAL;
+
+HORA                                                                            
+--------                                                                        
+11:50:35                                                                        
+
+SQL> SELECT *
+  2  FROM PLAN_DOCENTE;
+
+       DNI        CAS        CTA        CPA        CLA FI        FF             
+---------- ---------- ---------- ---------- ---------- --------- ---------      
+      4444          1          3        1.5        1.5 01-SEP-11                
+      4444          4        1.5          0        1.5 01-SEP-08 31-AUG-10      
+      4444          5          3          0          0 01-SEP-10                
+      1111          8          3        1.5        1.5 01-SEP-07 31-AUG-09      
+      1111          8          3          0          0 01-SEP-09                
+      3030          8          0        1.5        1.5 01-SEP-09                
+      2222          4        1.5          0        1.5 01-SEP-09                
+      2222          3        1.5          0        1.5 01-SEP-06 31-AUG-07      
+      1010          2        1.5        1.5          3 01-SEP-05 31-AUG-08      
+      3333          2        1.5        1.5          3 01-SEP-08                
+      1010          9          3          0          3 01-SEP-08 31-AUG-09      
+
+       DNI        CAS        CTA        CPA        CLA FI        FF             
+---------- ---------- ---------- ---------- ---------- --------- ---------      
+      1010          9        1.5          0        1.5 01-SEP-10                
+      9999          7          3          3          0 01-SEP-10                
+      5555          6          3          3          0 31-MAR-10                
+      6666         10          3        1.5        1.5 01-SEP-08 31-AUG-11      
+      8888         11          6          0          0 01-SEP-09                
+      2020          3        1.5          0        1.5 01-SEP-08                
+      7777         12        4.5          3          0 01-SEP-10                
+      3333          9        1.5          0        1.5 01-SEP-09                
+
+19 rows selected.
+
+SQL> SELECT SUM(FI, SYSDATE)
+  2  FROM PLAN_DOCENTE
+  3  WHERE PLAN_DOCENTE.DNI = 8888 AND CAS = 11;
+SELECT SUM(FI, SYSDATE)
+       *
+ERROR at line 1:
+ORA-00909: invalid number of arguments 
+
+
+SQL> SELECT FI - SYSDATE
+  2  FROM PLAN_DOCENTE
+  3  WHERE DNI= 8888 AND CAS = 11;
+
+FI-SYSDATE                                                                      
+----------                                                                      
+-2999.4967                                                                      
+
+SQL> SELECT SYSDATE - FI
+  2  FROM PLAN_DOCENTE
+  3  WHERE DNI = 8888 AND CAS = 11;
+
+SYSDATE-FI                                                                      
+----------                                                                      
+2999.49698                                                                      
+
+SQL> SELECT P
+  2  FROM PLAN_DOCENTE NATURAL JOIN PROFESOR
+  3  WHERE (SYSDATE - FI) > 365;
+
+P                                                                               
+------------------------------------------------------------                    
+JUAN                                                                            
+JUAN                                                                            
+CARLOS                                                                          
+CARLOS                                                                          
+PEDRO                                                                           
+PEDRO                                                                           
+MARIA                                                                           
+MARIA                                                                           
+MARIA                                                                           
+IVAN                                                                            
+CARMEN                                                                          
+
+P                                                                               
+------------------------------------------------------------                    
+MARIO                                                                           
+FRANCISCO                                                                       
+ANGELA                                                                          
+DAVID                                                                           
+DAVID                                                                           
+DAVID                                                                           
+SOLEDAD                                                                         
+JOSE MANUEL                                                                     
+
+19 rows selected.
+
+SQL> SELECT *
+  2  FROM PROFESOR;
+
+       DNI P                                                                    
+---------- ------------------------------------------------------------         
+       CAR CAT                                                                  
+---------- -----                                                                
+      1111 JUAN                                                                 
+         6 CU                                                                   
+                                                                                
+      2222 CARLOS                                                               
+         7 TU                                                                   
+                                                                                
+      3333 PEDRO                                                                
+         4 TEU                                                                  
+                                                                                
+
+       DNI P                                                                    
+---------- ------------------------------------------------------------         
+       CAR CAT                                                                  
+---------- -----                                                                
+      4444 MARIA                                                                
+         7 TU                                                                   
+                                                                                
+      5555 IVAN                                                                 
+         1 CEU                                                                  
+                                                                                
+      6666 CARMEN                                                               
+         3 CD                                                                   
+                                                                                
+
+       DNI P                                                                    
+---------- ------------------------------------------------------------         
+       CAR CAT                                                                  
+---------- -----                                                                
+      7777 MARIO                                                                
+         2 TU                                                                   
+                                                                                
+      8888 FRANCISCO                                                            
+         5 TU                                                                   
+                                                                                
+      9999 ANGELA                                                               
+         8 TEU                                                                  
+                                                                                
+
+       DNI P                                                                    
+---------- ------------------------------------------------------------         
+       CAR CAT                                                                  
+---------- -----                                                                
+      1010 DAVID                                                                
+         4 TU                                                                   
+                                                                                
+      2020 SOLEDAD                                                              
+         7 CU                                                                   
+                                                                                
+      3030 JOSE MANUEL                                                          
+         6 TEU                                                                  
+                                                                                
+
+12 rows selected.
+
+SQL> SPOOL OFF;

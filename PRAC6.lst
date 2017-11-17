@@ -1,0 +1,712 @@
+SQL> SELECT SYSDATE
+  2  
+SQL> 
+SQL> SELECT SYSDATE
+  2  FROM DUAL;
+
+SYSDATE                                                                         
+---------                                                                       
+17-NOV-17                                                                       
+
+SQL> SELECT CURRENT_DATE
+  2  FROM DUAL;
+
+CURRENT_D                                                                       
+---------                                                                       
+17-NOV-17                                                                       
+
+SQL> /* 1.Obtener la fecha del sistema.*/
+SQL> /* 2.Obtener la hora del sistema. */
+SQL> SELECT TO_CHAR(SYSDATE, 'HH:MI:SS') FECHA
+  2  FROM DUAL;
+
+FECHA                                                                           
+--------                                                                        
+12:00:15                                                                        
+
+SQL> /* 3.Dar la fecha del sistema con el formato d de la semana, d del mes, mes y ao. */
+SQL> SELECT TO_CHAR(SYSDATE, 'DAY DD:MM:YY') FECHA
+  2  FROM DUAL;
+
+FECHA                                                                           
+---------------------------------------------                                   
+FRIDAY    17:11:17                                                              
+
+SQL> /* 4.Dar la hora del sistema en formato de reloj de 24 horas. */
+SQL> SELECT TO_CHAR(SYSDATE, 'HH24:MI:SS') HORA
+  2  FROM DUAL;
+
+HORA                                                                            
+--------                                                                        
+12:02:06                                                                        
+
+SQL> /* 5.Obtener el nmero de ds que llevaimpartiendo la asignatura con cdddigo 11 el profesor con DNI 8888. */
+SQL> SELECT SYSDATE - FI
+  2  FROM PLAN_DOCENTE
+  3  WHERE DNI = 8888 AND CAS = 11;
+
+SYSDATE-FI                                                                      
+----------                                                                      
+2999.50189                                                                      
+
+SQL> /* 6.Listar los nombres de profesoresque han impartidounaasignatura ms de 365 ds. */
+SQL> HOST
+
+SQL> set pagesize 20;
+SQL> set linesize 130;
+SQL> SELECT *
+  2  FROM PROFESOR;
+
+       DNI P                                                                   CAR CAT                                            
+---------- ------------------------------------------------------------ ---------- -----                                          
+      1111 JUAN                                                                  6 CU                                             
+      2222 CARLOS                                                                7 TU                                             
+      3333 PEDRO                                                                 4 TEU                                            
+      4444 MARIA                                                                 7 TU                                             
+      5555 IVAN                                                                  1 CEU                                            
+      6666 CARMEN                                                                3 CD                                             
+      7777 MARIO                                                                 2 TU                                             
+      8888 FRANCISCO                                                             5 TU                                             
+      9999 ANGELA                                                                8 TEU                                            
+      1010 DAVID                                                                 4 TU                                             
+      2020 SOLEDAD                                                               7 CU                                             
+      3030 JOSE MANUEL                                                           6 TEU                                            
+
+12 rows selected.
+
+SQL> SELECT *
+  2  FROM PLAN_DOCENTE;
+
+       DNI        CAS        CTA        CPA        CLA FI        FF                                                               
+---------- ---------- ---------- ---------- ---------- --------- ---------                                                        
+      4444          1          3        1.5        1.5 01-SEP-11                                                                  
+      4444          4        1.5          0        1.5 01-SEP-08 31-AUG-10                                                        
+      4444          5          3          0          0 01-SEP-10                                                                  
+      1111          8          3        1.5        1.5 01-SEP-07 31-AUG-09                                                        
+      1111          8          3          0          0 01-SEP-09                                                                  
+      3030          8          0        1.5        1.5 01-SEP-09                                                                  
+      2222          4        1.5          0        1.5 01-SEP-09                                                                  
+      2222          3        1.5          0        1.5 01-SEP-06 31-AUG-07                                                        
+      1010          2        1.5        1.5          3 01-SEP-05 31-AUG-08                                                        
+      3333          2        1.5        1.5          3 01-SEP-08                                                                  
+      1010          9          3          0          3 01-SEP-08 31-AUG-09                                                        
+      1010          9        1.5          0        1.5 01-SEP-10                                                                  
+      9999          7          3          3          0 01-SEP-10                                                                  
+      5555          6          3          3          0 31-MAR-10                                                                  
+      6666         10          3        1.5        1.5 01-SEP-08 31-AUG-11                                                        
+      8888         11          6          0          0 01-SEP-09                                                                  
+      2020          3        1.5          0        1.5 01-SEP-08                                                                  
+
+       DNI        CAS        CTA        CPA        CLA FI        FF                                                               
+---------- ---------- ---------- ---------- ---------- --------- ---------                                                        
+      7777         12        4.5          3          0 01-SEP-10                                                                  
+      3333          9        1.5          0        1.5 01-SEP-09                                                                  
+
+19 rows selected.
+
+SQL> SELECT P
+  2  FROM PLAN_DOCENTE NATURAL JOIN PROFESOR
+  3  WHERE (SYSDATE - FI) > 365;
+
+P                                                                                                                                 
+------------------------------------------------------------                                                                      
+JUAN                                                                                                                              
+JUAN                                                                                                                              
+CARLOS                                                                                                                            
+CARLOS                                                                                                                            
+PEDRO                                                                                                                             
+PEDRO                                                                                                                             
+MARIA                                                                                                                             
+MARIA                                                                                                                             
+MARIA                                                                                                                             
+IVAN                                                                                                                              
+CARMEN                                                                                                                            
+MARIO                                                                                                                             
+FRANCISCO                                                                                                                         
+ANGELA                                                                                                                            
+DAVID                                                                                                                             
+DAVID                                                                                                                             
+DAVID                                                                                                                             
+
+P                                                                                                                                 
+------------------------------------------------------------                                                                      
+SOLEDAD                                                                                                                           
+JOSE MANUEL                                                                                                                       
+
+19 rows selected.
+
+SQL> SELECT DINSTINCT P
+  2  FROM PLAN_DOCENTE NATURAL JOIN PROFESOR
+  3  WHERE (SYSDATE - FI) > 365;
+SELECT DINSTINCT P
+       *
+ERROR at line 1:
+ORA-00904: "DINSTINCT": invalid identifier 
+
+
+SQL> SELECT DISTINCT P
+  2  FROM PLAN_DOCENTE NATURAL JOIN PROFESOR
+  3  WHERE (SYSDATE - FI) > 365;
+
+P                                                                                                                                 
+------------------------------------------------------------                                                                      
+MARIO                                                                                                                             
+JUAN                                                                                                                              
+PEDRO                                                                                                                             
+FRANCISCO                                                                                                                         
+SOLEDAD                                                                                                                           
+CARLOS                                                                                                                            
+IVAN                                                                                                                              
+CARMEN                                                                                                                            
+DAVID                                                                                                                             
+MARIA                                                                                                                             
+JOSE MANUEL                                                                                                                       
+ANGELA                                                                                                                            
+
+12 rows selected.
+
+SQL> /* 7.Hallar el nmero de profesoresdel departamento ASTROFISICA*/
+SQL> SELECT * FROM DEPARTAMENTE;
+SELECT * FROM DEPARTAMENTE
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT * FROM DEPARTAMENTO;
+
+        CD D                                                                                                                      
+---------- ------------------------------------------------------------                                                           
+         1 ANALISIS MATEMATICO                                                                                                    
+         2 ASTROFISICA                                                                                                            
+         3 ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                     
+         4 MATEMATICA FUNDAMENTAL                                                                                                 
+
+SQL> SELECT COUNT(*)
+  2  
+SQL> 
+SQL> SELECT *
+  2  FROM PROFESOR;
+
+       DNI P                                                                   CAR CAT                                            
+---------- ------------------------------------------------------------ ---------- -----                                          
+      1111 JUAN                                                                  6 CU                                             
+      2222 CARLOS                                                                7 TU                                             
+      3333 PEDRO                                                                 4 TEU                                            
+      4444 MARIA                                                                 7 TU                                             
+      5555 IVAN                                                                  1 CEU                                            
+      6666 CARMEN                                                                3 CD                                             
+      7777 MARIO                                                                 2 TU                                             
+      8888 FRANCISCO                                                             5 TU                                             
+      9999 ANGELA                                                                8 TEU                                            
+      1010 DAVID                                                                 4 TU                                             
+      2020 SOLEDAD                                                               7 CU                                             
+      3030 JOSE MANUEL                                                           6 TEU                                            
+
+12 rows selected.
+
+SQL> SELECT COUNT(*)
+  2  FROM (PROFESOR NATURAL JOIN ASIGNATURA) NATURAL JOIN DEPARTAMENTO
+  3  WHERE D = "ASTROFISICA";
+WHERE D = "ASTROFISICA"
+          *
+ERROR at line 3:
+ORA-00904: "ASTROFISICA": invalid identifier 
+
+
+SQL> SELECT COUNT(*)
+  2  FROM (PROFESOR NATURAL JOIN ASIGNATURA) NATURAL JOIN DEPARTAMENTO
+  3  WHERE D = ASTROFISICA;
+WHERE D = ASTROFISICA
+          *
+ERROR at line 3:
+ORA-00904: "ASTROFISICA": invalid identifier 
+
+
+SQL> SELECT COUNT(*)
+  2  FROM (PROFESOR NATURAL JOIN ASIGNATURA) NATURAL JOIN DEPARTAMENTO
+  3  WHERE D = 'ASTROFISICA';
+
+  COUNT(*)                                                                                                                        
+----------                                                                                                                        
+        23                                                                                                                        
+
+SQL> SELECT COUNT(P)
+  2  FROM (PROFESOR NATURAL JOIN ASIGNATURA) NATURAL JOIN DEPARTAMENTO
+  3  WHERE D = 'ASTROFISICA';
+
+  COUNT(P)                                                                                                                        
+----------                                                                                                                        
+        23                                                                                                                        
+
+SQL> SELECT DINSTINCT COUNT(P)
+  2  FROM (PROFESOR NATURAL JOIN ASIGNATURA) NATURAL JOIN DEPARTAMENTO
+  3  WHERE D = 'ASTROFISICA';
+SELECT DINSTINCT COUNT(P)
+                      *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT COUNT(DINSTINCT P)
+  2  FROM (PROFESOR NATURAL JOIN ASIGNATURA) NATURAL JOIN DEPARTAMENTO
+  3  WHERE D = 'ASTROFISICA';
+SELECT COUNT(DINSTINCT P)
+                       *
+ERROR at line 1:
+ORA-00907: missing right parenthesis 
+
+
+SQL> SELECT COUNT(DINSTINCT (P))
+  2  FROM (PROFESOR NATURAL JOIN ASIGNATURA) NATURAL JOIN DEPARTAMENTO
+  3  WHERE D = 'ASTROFISICA';
+SELECT COUNT(DINSTINCT (P))
+             *
+ERROR at line 1:
+ORA-00904: "DINSTINCT": invalid identifier 
+
+
+SQL> SELECT COUNT P
+  2  FROM (PROFESOR NATURAL JOIN ASIGNATURA) NATURAL JOIN DEPARTAMENTO
+  3  WHERE D = 'ASTROFISICA';
+SELECT COUNT P
+       *
+ERROR at line 1:
+ORA-00904: "COUNT": invalid identifier 
+
+
+SQL> SELECT COUNT(P)
+  2  FROM (PROFESOR NATURAL JOIN ASIGNATURA) NATURAL JOIN DEPARTAMENTO
+  3  WHERE D = 'ASTROFISICA';
+
+  COUNT(P)                                                                                                                        
+----------                                                                                                                        
+        23                                                                                                                        
+
+SQL> FROM (PROFESOR NATURAL JOIN AREA) NATURAL JOIN DEPARTAMENTO
+SP2-0734: unknown command beginning "FROM (PROF..." - rest of line ignored.
+SQL> SELECT COUNT(P)
+  2  FROM (PROFESOR NATURAL JOIN AREA) NATURAL JOIN DEPARTAMENTO
+  3  WHERE D = 'ASTROFISICA';
+
+  COUNT(P)                                                                                                                        
+----------                                                                                                                        
+         1                                                                                                                        
+
+SQL> /* 7.Hallar el nmero de profesoresdel departamento ASTROFISICA */
+SQL> SELECT COUNT(P)
+  2  FROM (PROFESOR NATURAL JOIN AREA) NATURAL JOIN DEPARTAMENTO
+  3  WHERE D = 'ASTROFISICA';
+
+  COUNT(P)                                                                                                                        
+----------                                                                                                                        
+         1                                                                                                                        
+
+SQL> /* 8.Hallar  para  cada departamentoel  nmero  de profesoresque tiene.  Ordena  la  salida alfabticamente.
+SQL> */
+SQL> SELECT D, COUNT(P)
+  2  FROM (PROFESOR NATURAL JOIN DEPARTAMENTO)
+  3  
+SQL> SELECT SYSTIMESTAMP
+  2  FROM DUAL;
+
+SYSTIMESTAMP                                                                                                                      
+---------------------------------------------------------------------------                                                       
+17-NOV-17 12.19.04.207207 PM +00:00                                                                                               
+
+SQL> SELECT SYSTIMESTAMP(8)
+  2  FROM DUAL;
+
+SYSTIMESTAMP(8)                                                                                                                   
+---------------------------------------------------------------------------                                                       
+17-NOV-17 12.19.42.50031500 PM +00:00                                                                                             
+
+SQL> SELECT CURRENT_TIMESTAMP
+  2  FROM DUAL;
+
+CURRENT_TIMESTAMP                                                                                                                 
+---------------------------------------------------------------------------                                                       
+17-NOV-17 12.20.26.375945 PM +00:00                                                                                               
+
+SQL> ALTER TABLE DEPARTAMENT
+  2  
+SQL> 
+SQL> ALTER TABLE DEPARTAMENTO
+  2  ADD(D1 TIMESTAMP(8) DEFAULT SYSTIMESTAMP(8));
+
+Table altered.
+
+SQL> SELECT * DEPARTAMENTO;
+SELECT * DEPARTAMENTO
+         *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT *
+  2  FROM DEPARTAMENTO;
+
+        CD D                                                                                                                      
+---------- ------------------------------------------------------------                                                           
+D1                                                                                                                                
+---------------------------------------------------------------------------                                                       
+         1 ANALISIS MATEMATICO                                                                                                    
+17-NOV-17 12.22.44.20277200 PM                                                                                                    
+                                                                                                                                  
+         2 ASTROFISICA                                                                                                            
+17-NOV-17 12.22.44.20277200 PM                                                                                                    
+                                                                                                                                  
+         3 ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                     
+17-NOV-17 12.22.44.20277200 PM                                                                                                    
+                                                                                                                                  
+         4 MATEMATICA FUNDAMENTAL                                                                                                 
+17-NOV-17 12.22.44.20277200 PM                                                                                                    
+                                                                                                                                  
+
+SQL> ALTER TABLE DEPARTAMENTO
+  2  MODIFY(D1 TIMESTAMP(9));
+
+Table altered.
+
+SQL> SELECT *
+  2  FROM DEPARTAMENTO;
+
+        CD D                                                                                                                      
+---------- ------------------------------------------------------------                                                           
+D1                                                                                                                                
+---------------------------------------------------------------------------                                                       
+         1 ANALISIS MATEMATICO                                                                                                    
+17-NOV-17 12.22.44.202772000 PM                                                                                                   
+                                                                                                                                  
+         2 ASTROFISICA                                                                                                            
+17-NOV-17 12.22.44.202772000 PM                                                                                                   
+                                                                                                                                  
+         3 ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                     
+17-NOV-17 12.22.44.202772000 PM                                                                                                   
+                                                                                                                                  
+         4 MATEMATICA FUNDAMENTAL                                                                                                 
+17-NOV-17 12.22.44.202772000 PM                                                                                                   
+                                                                                                                                  
+
+SQL> ALTER TABLE DEPARTAMENTO
+  2  RENAME COLUMN D1 TO D2;
+
+Table altered.
+
+SQL> DESCRIBE DEPARTAMENTO;
+ Name                                                                    Null?    Type
+ ----------------------------------------------------------------------- -------- ------------------------------------------------
+ CD                                                                      NOT NULL NUMBER(2)
+ D                                                                                VARCHAR2(60)
+ D2                                                                               TIMESTAMP(9)
+
+SQL> ALTER TABLE DEPARTAMENTO
+  2  DROP COLUMN D2;
+
+Table altered.
+
+SQL> DESCRIBE DEPARTAMENTO;
+ Name                                                                    Null?    Type
+ ----------------------------------------------------------------------- -------- ------------------------------------------------
+ CD                                                                      NOT NULL NUMBER(2)
+ D                                                                                VARCHAR2(60)
+
+SQL> DROP TABLE DEPARTAMENTO;
+DROP TABLE DEPARTAMENTO
+           *
+ERROR at line 1:
+ORA-02449: unique/primary keys in table referenced by foreign keys 
+
+
+SQL> SELECT D, COUNT(P)
+  2  FROM (DEPARTAMENTO NATURAL JOIN AREA) NATURAL JOIN PROFESOR
+  3  ;
+SELECT D, COUNT(P)
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT DNI
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  HAVING COUNT DINSTINCT(CAS) > 2;
+HAVING COUNT DINSTINCT(CAS) > 2
+             *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> SELECT DNI
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  HAVING COUNT DISTINCT(CAS) > 2;
+HAVING COUNT DISTINCT(CAS) > 2
+             *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> SELECT COUNT DISTINCT(DNI)
+  2  FROM PLAN_DOCENTE;
+SELECT COUNT DISTINCT(DNI)
+             *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT COUNT (DISTINCT DNI)
+  2  FROM PLAN_DOCENTE;
+
+COUNT(DISTINCTDNI)                                                                                                                
+------------------                                                                                                                
+                12                                                                                                                
+
+SQL> SELECT COUNT (DISTINCT DNI)
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  HAVING COUNT (DISTINCT CAS);
+HAVING COUNT (DISTINCT CAS)
+                          *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> SELECT COUNT (DISTINCT DNI)
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  SELECT COUNT (DISTINCT DNI) > 2;
+SELECT COUNT (DISTINCT DNI) > 2
+*
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> SELECT COUNT (DISTINCT DNI)
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  HAVING COUNT (DISTINCT CAS) > 2;
+
+COUNT(DISTINCTDNI)                                                                                                                
+------------------                                                                                                                
+                12                                                                                                                
+
+SQL> SELECT DNI
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  HAVING COUNT(DISTINCT CAS) > 2;
+SELECT DNI
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT DNI
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  GROUP BY DNI, CAS
+  4  HAVING COUNT(DISTINCT CAS) > 2;
+
+no rows selected
+
+SQL> SELECT DNI, CAS
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE;
+
+       DNI        CAS                                                                                                             
+---------- ----------                                                                                                             
+      1010          2                                                                                                             
+      1010          9                                                                                                             
+      1010          9                                                                                                             
+      1111          8                                                                                                             
+      1111          8                                                                                                             
+      2020          3                                                                                                             
+      2222          3                                                                                                             
+      2222          4                                                                                                             
+      3030          8                                                                                                             
+      3333          2                                                                                                             
+      3333          9                                                                                                             
+      4444          1                                                                                                             
+      4444          4                                                                                                             
+      4444          5                                                                                                             
+      5555          6                                                                                                             
+      6666         10                                                                                                             
+      7777         12                                                                                                             
+
+       DNI        CAS                                                                                                             
+---------- ----------                                                                                                             
+      8888         11                                                                                                             
+      9999          7                                                                                                             
+
+19 rows selected.
+
+SQL> SELECT DNI
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  GROUP BY DNI, CAS
+  4  HAVING COUNT(*) > 2;
+
+no rows selected
+
+SQL> SELECT DNI
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  GRUPO BY DNI, CAS
+  4  HAVING COUNT(DISTINCT CAS) > 1;
+GRUPO BY DNI, CAS
+      *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> SELECT DNI
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  GRUP BY DNI, CAS
+  4  HAVING COUNT(DISTINCT CAS) > 1;
+GRUP BY DNI, CAS
+     *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> SELECT DNI
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  GROUP BY DNI, CAS
+  4  HAVING COUNT(DISTINCT CAS) > 1;
+
+no rows selected
+
+SQL> SELECT DNI
+  2  FROM PLAN_DOCENTE
+  3  GROUP BY DNI, CAS
+  4  HAVING COUNT(DISTINCT CAS) >1;
+
+no rows selected
+
+SQL> SELECT DNI
+  2  FROM PLAN_DOCENTE
+  3  GROUP BY DNI, CAS
+  4  HAVING COUNT(CAS) > 1;
+
+       DNI                                                                                                                        
+----------                                                                                                                        
+      1010                                                                                                                        
+      1111                                                                                                                        
+
+SQL> SELECT DNI
+  2  FROM PLAN_DOCENTE
+  3  GROUP BY DNI, CAS
+  4  HAVING COUNT(DISTINCT CAS) < 1;
+
+no rows selected
+
+SQL> SELECT DNI
+  2  FROM PLAN_DOCENTE
+  3  GROUP BY CAS;
+SELECT DNI
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> SELECT DNI, COUNT(CAS)
+  2  FROM PLAN_DOCENTE
+  3  GROUP BY CAS;
+SELECT DNI, COUNT(CAS)
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> SELECT DNI, COUNT(CAS)
+  2  FROM PLAN_DOCENTE
+  3  GROUP BY DNI;
+
+       DNI COUNT(CAS)                                                                                                             
+---------- ----------                                                                                                             
+      1010          3                                                                                                             
+      1111          2                                                                                                             
+      2020          1                                                                                                             
+      2222          2                                                                                                             
+      3030          1                                                                                                             
+      3333          2                                                                                                             
+      4444          3                                                                                                             
+      5555          1                                                                                                             
+      6666          1                                                                                                             
+      7777          1                                                                                                             
+      8888          1                                                                                                             
+      9999          1                                                                                                             
+
+12 rows selected.
+
+SQL> /* 8.Hallar  para  cada departamentoel  nmero  de profesoresque tiene.  Ordena  la  salida alfabticamente. */
+SQL> SELECT D, COUNT(P)
+  2  FROM (DEPARTAMENTO NATURAL JOIN AREA) NATURAL JOIN PROFESOR;
+SELECT D, COUNT(P)
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT D, COUNT(P)
+  2  FROM (DEPARTAMENTO NATURAL JOIN AREA) NATURAL JOIN PROFESOR
+  3  GROUP BY D;
+
+D                                                              COUNT(P)                                                           
+------------------------------------------------------------ ----------                                                           
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                    7                                                           
+ASTROFISICA                                                           1                                                           
+ANALISIS MATEMATICO                                                   3                                                           
+MATEMATICA FUNDAMENTAL                                                1                                                           
+
+SQL> SELECT D, COUNT(P)
+  2  FROM (DEPARTAMENTO NATURAL JOIN AREA) NATURAL JOIN PROFESOR
+  3  GROUP BY D
+  4  ORDER BY D DESC;
+
+D                                                              COUNT(P)                                                           
+------------------------------------------------------------ ----------                                                           
+MATEMATICA FUNDAMENTAL                                                1                                                           
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                    7                                                           
+ASTROFISICA                                                           1                                                           
+ANALISIS MATEMATICO                                                   3                                                           
+
+SQL> SELECT D, COUNT(P)
+  2  FROM (DEPARTAMENTO NATURAL JOIN AREA) NATURAL JOIN PROFESOR
+  3  GROUP BY D
+  4  ORDER BY D ADC;
+ORDER BY D ADC
+           *
+ERROR at line 4:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> SELECT D, COUNT(P)
+  2  FROM (DEPARTAMENTO NATURAL JOIN AREA) NATURAL JOIN PROFESOR
+  3  GROUP BY D
+  4  ORDER BY D ASC;
+
+D                                                              COUNT(P)                                                           
+------------------------------------------------------------ ----------                                                           
+ANALISIS MATEMATICO                                                   3                                                           
+ASTROFISICA                                                           1                                                           
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                    7                                                           
+MATEMATICA FUNDAMENTAL                                                1                                                           
+
+SQL> /* DNI de los profesores que actualmente dan clase en 2 titulaciones distintas*/
+SQL> SELECT DNI
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  GROUP BY DNI
+  4  HAVING COUNT(DISTINCT CAS) > 1;
+
+       DNI                                                                                                                        
+----------                                                                                                                        
+      2222                                                                                                                        
+      4444                                                                                                                        
+      3333                                                                                                                        
+      1010                                                                                                                        
+
+SQL> SELECT DNI
+  2  FROM PLAN_DOCENTE
+  3  WHERE
+  4  
+SQL> 
+SQL> SELECT DNI
+  2  FROM PLAN_DOCENTE NATURAL JOIN ASIGNATURA
+  3  WHERE FF IS NOT NULL
+  4  GROUP BY DNI
+  5  HAVING COUNT(DISTINCT T) > 1;
+
+no rows selected
+
+SQL> SPOOL OFF;
