@@ -181,4 +181,88 @@ SQL> COMMIT WORK
 
 Commit complete.
 
+SQL> ALTER TABLE ASIGNATURA
+  2  ADD CONSTRAINT FK_ASIGNATURA_TITULACION
+  3  FOREIGN KEY (T) REFERENCES TITULACION ON DELETE CASCADE;
+
+Table altered.
+
+SQL> COMMIT WORK;
+
+Commit complete.
+
+SQL> /*8*/
+SQL> ALTER TABLE TITULACION
+  2  DISABLE CONSTRAIT FK_ASIGNATURA_TITULACION;
+DISABLE CONSTRAIT FK_ASIGNATURA_TITULACION
+        *
+ERROR at line 2:
+ORA-00905: missing keyword 
+
+
+SQL> ALTER TABLE TITULACION
+  2  DISABLE CONSTRAINT FK_ASIGNATURA_TITULACION;
+ALTER TABLE TITULACION
+*
+ERROR at line 1:
+ORA-02431: cannot disable constraint (FK_ASIGNATURA_TITULACION) - no such constraint 
+
+
+SQL> ALTER TABLE TITULACION
+  2  
 SQL> 
+SQL> ALTER TABLE ASIGNATURA
+  2  DISABLE CONSTRAINT FK_ASIGNATURA_TITULACION;
+
+Table altered.
+
+SQL> COMMIT WORK;
+
+Commit complete.
+
+SQL> ALTER TABLE TITULACION
+  2  MODIFY (T CHAR(6));
+
+Table altered.
+
+SQL> COMMIT WORK;
+
+Commit complete.
+
+SQL> ALTER TABLE TITULACION
+  2  ENABLE CONSTRAINT FK_ASIGNATURA_TITULACION;
+ALTER TABLE TITULACION
+*
+ERROR at line 1:
+ORA-02430: cannot enable constraint (FK_ASIGNATURA_TITULACION) - no such constraint 
+
+
+SQL> ALTER TABLE ASIGNATURA
+  2  ENABLE CONSTRAINT FK_ASIGNATURA_TITULACION;
+
+Table altered.
+
+SQL> DESCRIBE ASIGNATURA;
+ Name                                                                                Null?    Type
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ CAS                                                                                 NOT NULL NUMBER(3)
+ A                                                                                   NOT NULL VARCHAR2(50)
+ T                                                                                   NOT NULL CHAR(4)
+ CUR                                                                                          NUMBER(1)
+ CAR                                                                                          NUMBER(3)
+ CT                                                                                           NUMBER(3,1)
+ CP                                                                                           NUMBER(3,1)
+ CL                                                                                           NUMBER(3,1)
+
+SQL> 
+SQL> 
+SQL> 
+SQL> commit work;
+
+Commit complete.
+
+SQL> host
+
+SQL> spool
+currently spooling to PRACT8.lst
+SQL> spool off;
