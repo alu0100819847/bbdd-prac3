@@ -710,3 +710,487 @@ SQL> SELECT DNI
 no rows selected
 
 SQL> SPOOL OFF;
+SQL> /*9*/
+SQL> HOST
+
+SQL> set pagesize 20;
+SQL> set linesize 150
+SQL> ;
+SP2-0223: No lines in SQL buffer.
+SQL> sey pagesize 50
+SP2-0734: unknown command beginning "sey pagesi..." - rest of line ignored.
+SQL> set pagesize 50;
+SQL> set linesize 150;
+SQL> SELECT COUNT(DISTINCT T)
+  2  FROM (ASIGNATURA NATURAL JOIN AREA) NATURAL JOIN DEPARTAMENTO
+  3  WHERE D = "ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION";
+WHERE D = "ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION"
+          *
+ERROR at line 3:
+ORA-00904: "ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION": invalid identifier 
+
+
+SQL> SELECT * FROM DEPARTAMENTO;
+
+        CD D                                                                                                                                          
+---------- ------------------------------------------------------------                                                                               
+         1 ANALISIS MATEMATICO                                                                                                                        
+         2 ASTROFISICA                                                                                                                                
+         3 ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                                         
+         4 MATEMATICA FUNDAMENTAL                                                                                                                     
+
+SQL> SELECT COUNT(DISTINCT T)
+  2  FROM (ASIGNATURA NATURAL JOIN AREA) NATURAL JOIN DEPARTAMENTO
+  3  WHERE D = 'ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION';
+
+COUNT(DISTINCTT)                                                                                                                                      
+----------------                                                                                                                                      
+               2                                                                                                                                      
+
+SQL> /*10*/
+SQL> SELECT COUNT(P)
+  2  FROM AREA NATURAL JOIN PROFESOR
+  3  WHERE AR LIKE 'A%';
+
+  COUNT(P)                                                                                                                                            
+----------                                                                                                                                            
+         3                                                                                                                                            
+
+SQL> /*11*/
+SQL> SELECT DISTINCT T, COUNT(DISTINCT CAS)
+  2  FROM ASIGNATURA
+  3  GROUP BY T
+  4  ORDER BY T ASC;
+
+T    COUNT(DISTINCTCAS)                                                                                                                               
+---- ------------------                                                                                                                               
+GF                    1                                                                                                                               
+GII                   7                                                                                                                               
+GM                    2                                                                                                                               
+MII                   2                                                                                                                               
+
+SQL> /*12*/
+SQL> SELECT AS
+  2  FROM ASIGNATURA
+  3  HAVING MAX(CT);
+SELECT AS
+       *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> SELECT AS
+  2  FROM ASIGNATURA
+  3  GROUO BY AS, CT
+  4  HAVING MAX(CT);
+SELECT AS
+       *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> SELECT AS FROM ASIGNATURA;
+SELECT AS FROM ASIGNATURA
+       *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  HAVING MAX(CT);
+HAVING MAX(CT)
+             *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  GROUO BY AS, CT
+  4  HAVING MAX(CT);
+GROUO BY AS, CT
+      *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  GROUP BY AS, CT
+  4  HAVING MAX(CT);
+GROUP BY AS, CT
+         *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  GROUP BY A, CT
+  4  HAVING MAX(CT);
+HAVING MAX(CT)
+             *
+ERROR at line 4:
+ORA-00920: invalid relational operator 
+
+
+SQL> SELECT MAX(A)
+  2  FROM ASIGNATURA;
+
+MAX(A)                                                                                                                                                
+--------------------------------------------------                                                                                                    
+OPTIMIZACION                                                                                                                                          
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  GROUP BY A, CT
+  4  HAVING MAX(CT);
+HAVING MAX(CT)
+             *
+ERROR at line 4:
+ORA-00920: invalid relational operator 
+
+
+SQL> SELECT A, MAX(CT)
+  2  FROM ASIGNATURA;
+SELECT A, MAX(CT)
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT CT FROM ASIGNATURA;
+
+        CT                                                                                                                                            
+----------                                                                                                                                            
+         3                                                                                                                                            
+       1.5                                                                                                                                            
+       1.5                                                                                                                                            
+       1.5                                                                                                                                            
+         3                                                                                                                                            
+         3                                                                                                                                            
+         3                                                                                                                                            
+         3                                                                                                                                            
+         3                                                                                                                                            
+         3                                                                                                                                            
+         6                                                                                                                                            
+       4.5                                                                                                                                            
+
+12 rows selected.
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  HAVING MAX(CT);
+HAVING MAX(CT)
+             *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> SELECT A, CT
+  2  FROM ASIGNATURA
+  3  GROUP BY A,
+  4  
+SQL> SELECT MAX(CT)
+  2  FROM ASIGNATURA;
+
+   MAX(CT)                                                                                                                                            
+----------                                                                                                                                            
+         6                                                                                                                                            
+
+SQL> SELECT A, MAX(CT)
+  2  FROM ASIGNATURA
+  3  GROUP BY A;
+
+A                                                     MAX(CT)                                                                                         
+-------------------------------------------------- ----------                                                                                         
+ALGEBRA                                                     3                                                                                         
+BASES DE DATOS                                              3                                                                                         
+INFORMATICA BASICA                                          3                                                                                         
+OPTIMIZACION                                                3                                                                                         
+CALCULO                                                     3                                                                                         
+GESTION DE RIESGOS                                          3                                                                                         
+ENSENANZA DE LA MATEMATICA                                  6                                                                                         
+ANALISIS COMPLEJO                                         4.5                                                                                         
+INTELIGENCIA ARTIFICIAL                                   1.5                                                                                         
+MINERIA DE DATOS                                          1.5                                                                                         
+ALMACENES DE DATOS                                        1.5                                                                                         
+ASTRONOMIA                                                  3                                                                                         
+
+12 rows selected.
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE
+  4  
+SQL> 
+SQL> SELECT A, MAX(CT)
+  2  FROM ASIGNATURA
+  3  GROUP BY A
+  4  HAVING MAX(CT);
+HAVING MAX(CT)
+             *
+ERROR at line 4:
+ORA-00920: invalid relational operator 
+
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  GROUP BY A
+  4  HAVING CT = (SELECT MAX(CT)
+  5  FROM ASIGNATURA);
+HAVING CT = (SELECT MAX(CT)
+       *
+ERROR at line 4:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  GROUP BY A, CT
+  4  
+SQL> SELECT A, MAX(CT)
+  2  FROM ASIGNATURA
+  3  WHERE CT IN (SELECT MAX(CT)
+  4  FROM ASIGNATURA);
+SELECT A, MAX(CT)
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT A, MAX(CT)
+  2  
+SQL> 
+SQL> 
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CT IN (SELECT MAX(CT)
+  4  FROM ASIGNATURA);
+
+A                                                                                                                                                     
+--------------------------------------------------                                                                                                    
+ENSENANZA DE LA MATEMATICA                                                                                                                            
+
+SQL> /*13*/
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CT IN (SELECT MIN(CT)
+  4  FROM ASIGNATURA);
+
+A                                                                                                                                                     
+--------------------------------------------------                                                                                                    
+INTELIGENCIA ARTIFICIAL                                                                                                                               
+ALMACENES DE DATOS                                                                                                                                    
+MINERIA DE DATOS                                                                                                                                      
+
+SQL> SELECT CT FROM ASIGNATURA;
+
+        CT                                                                                                                                            
+----------                                                                                                                                            
+         3                                                                                                                                            
+       1.5                                                                                                                                            
+       1.5                                                                                                                                            
+       1.5                                                                                                                                            
+         3                                                                                                                                            
+         3                                                                                                                                            
+         3                                                                                                                                            
+         3                                                                                                                                            
+         3                                                                                                                                            
+         3                                                                                                                                            
+         6                                                                                                                                            
+       4.5                                                                                                                                            
+
+12 rows selected.
+
+SQL> /*14*/
+SQL> SELECT A, (CT+CP+CL)
+  2  FROM ASIGNATURA;
+
+A                                                  (CT+CP+CL)                                                                                         
+-------------------------------------------------- ----------                                                                                         
+BASES DE DATOS                                              6                                                                                         
+INTELIGENCIA ARTIFICIAL                                     6                                                                                         
+ALMACENES DE DATOS                                          3                                                                                         
+MINERIA DE DATOS                                            3                                                                                         
+INFORMATICA BASICA                                          6                                                                                         
+ALGEBRA                                                     6                                                                                         
+CALCULO                                                     6                                                                                         
+OPTIMIZACION                                                6                                                                                         
+GESTION DE RIESGOS                                          6                                                                                         
+ASTRONOMIA                                                  6                                                                                         
+ENSENANZA DE LA MATEMATICA                                  6                                                                                         
+ANALISIS COMPLEJO                                         7.5                                                                                         
+
+12 rows selected.
+
+SQL> /*15*/
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE (CT+CP+CL) IN (SELECT MAX(CT+CP+CL)
+  4  FROM ASIGNATURA);
+
+A                                                                                                                                                     
+--------------------------------------------------                                                                                                    
+ANALISIS COMPLEJO                                                                                                                                     
+
+SQL> /* 16 */
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE (CT+CP+CL) IN (SELECT MIN(CT+CP+CL)
+  4  FROM ASIGNATURA);
+
+A                                                                                                                                                     
+--------------------------------------------------                                                                                                    
+ALMACENES DE DATOS                                                                                                                                    
+MINERIA DE DATOS                                                                                                                                      
+
+SQL> /*17*/
+SQL> SELECT AR
+  2  FROM AREA NATURAL JOIN ASIGNATURA
+  3  WHERE (CT+CP+CL) IN (SELECT MAX(CT+CP+CL)
+  4  FROM ASIGNATURA);
+
+AR                                                                                                                                                    
+------------------------------------------------------------                                                                                          
+ANALISIS MATEMATICO                                                                                                                                   
+
+SQL> /*18*/
+SQL> SELECT COUNT(DISTINCT AS)
+  2  FROM PLAN_DOCENTE
+  3  WHERE DNI = 1111;
+SELECT COUNT(DISTINCT AS)
+                      *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> SELECT COUNT(DISTINCT CAS)
+  2  FROM PLAN_DOCENTE
+  3  WHERE DNI = 1111;
+
+COUNT(DISTINCTCAS)                                                                                                                                    
+------------------                                                                                                                                    
+                 1                                                                                                                                    
+
+SQL> SELECT (CTA + CPA + CLA)
+  2  FROM PLAN_DOCENTE
+  3  WHERE DNI = 1111;
+
+(CTA+CPA+CLA)                                                                                                                                         
+-------------                                                                                                                                         
+            6                                                                                                                                         
+            3                                                                                                                                         
+
+SQL> SELECT SUM(CTA+CPA+CLA)
+  2  FROM PLAN_DOCENTE
+  3  WHERE DNI=1111;
+
+SUM(CTA+CPA+CLA)                                                                                                                                      
+----------------                                                                                                                                      
+               9                                                                                                                                      
+
+SQL> /*19*/
+SQL> /* ES LA DE ARRIBA */
+SQL> /*20*/
+SQL> SELECT P
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  WHERE DNI IN (SELECT MAX(SUM(CTA+CPA+CLA))
+  4  FROM PLAN_DOCENTE);
+WHERE DNI IN (SELECT MAX(SUM(CTA+CPA+CLA))
+                         *
+ERROR at line 3:
+ORA-00978: nested group function without GROUP BY 
+
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN(SELECT DNI
+  4  FROM PLAN_DOCENTE
+  5  WHERE DNI IS NULL
+  6  GROUP BY DNI
+  7  HAVING SUM(CTA+CPA+CLA)=(SELECT MAX(
+  8  
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN (SELECT DNI, MAX(SUM(CTA+CPA+CLA))
+  4  FROM PLAN_DOCENTE
+  5  GROUP BY DNI
+  6  WHERE FF IS NULL);
+WHERE FF IS NULL)
+*
+ERROR at line 6:
+ORA-00907: missing right parenthesis 
+
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN (SELECT DNI, MAX(SUM(CTA+CPA+CLA))
+  4  FROM PLAN_DOCENTE
+  5  WHERE FF IS NULL
+  6  GROUP BY DNI);
+WHERE DNI IN (SELECT DNI, MAX(SUM(CTA+CPA+CLA))
+              *
+ERROR at line 3:
+ORA-00913: too many values 
+
+
+SQL> /*20*/
+SQL> SELECT P
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  WHERE FF IS NULL
+  4  GROUP BY DNI, P
+  5  HAVING SUM(CTA+CLA+CPA)=(SELECT MAX(SUM(CTA+CPA+CLA))
+  6  FROM PLAN_DOCENTE
+  7  WHERE FF IS NULL
+  8  GROUP BY DNI);
+
+P                                                                                                                                                     
+------------------------------------------------------------                                                                                          
+MARIA                                                                                                                                                 
+PEDRO                                                                                                                                                 
+
+SQL> /*21*/
+SQL> SELECT AVG(COUNT(CAS))
+  2  FROM AREA NATURAL_JOIN ASIGNATURA
+  3  GROUP BY AR, CAS;
+FROM AREA NATURAL_JOIN ASIGNATURA
+                       *
+ERROR at line 2:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> SELECT AVG(COUNT(CAS))
+  2  FROM AREA NATURAL JOIN ASIGNATURA
+  3  GROUP BY AR, CAS;
+
+AVG(COUNT(CAS))                                                                                                                                       
+---------------                                                                                                                                       
+              1                                                                                                                                       
+
+SQL> SELECT COUNT(CAS)
+  2  FROM AREA NATURAL JOIN ASIGNATURA
+  3  GROUP BY AR, CAS;
+
+COUNT(CAS)                                                                                                                                            
+----------                                                                                                                                            
+         1                                                                                                                                            
+         1                                                                                                                                            
+         1                                                                                                                                            
+         1                                                                                                                                            
+         1                                                                                                                                            
+         1                                                                                                                                            
+         1                                                                                                                                            
+         1                                                                                                                                            
+         1                                                                                                                                            
+         1                                                                                                                                            
+         1                                                                                                                                            
+         1                                                                                                                                            
+
+12 rows selected.
+
+SQL> SELECT COUNT(CAS)
+  2  
+SQL> 
+SQL> SPOOL OFF;
