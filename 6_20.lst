@@ -1,0 +1,67 @@
+SQL> /* Hallar el nombre del profesor que ms crditos imparte actualmente. */
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN ( SELECT DNI
+  4  FROM PLAN_DOCENTE
+  5  WHERE FF IS NULL
+  6  GROUP BY DNI
+  7  HAVING SUM(CTA+CPA+CLA) = (SELECT MAX(SUM(CTA+CPA+CLA))
+  8  FROM PLAN_DOCENTE
+  9  );
+)
+*
+ERROR at line 9:
+ORA-00907: missing right parenthesis 
+
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN ( SELECT DNI
+  4  FROM PLAN_DOCENTE
+  5  GROUP BY DNI
+  6  HAVING SUM(CTA
+  7  
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN ( SELECT DNI
+  4  FROM PLAN_DOCENTE
+  5  WHERE FF IS NULL
+  6  GROUP BY DNI
+  7  HAVING SUM(CTA+CPA+CLA) = ( SELECT MAX(SUM(CTA+CPA+CLA))
+  8  FROM PLAN_DOCENTE));
+HAVING SUM(CTA+CPA+CLA) = ( SELECT MAX(SUM(CTA+CPA+CLA))
+                                       *
+ERROR at line 7:
+ORA-00978: nested group function without GROUP BY 
+
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN ( SELECT DNI
+  4  FROM PLAN_DOCENTE
+  5  WHERE FF IS NULL
+  6  GROUP BY DNI
+  7  HAVING SUM(CTA+CPA+CLA) = (SELECT MAX(SUM(CTA+CLA+CPA))
+  8  FROM PLAN_DOCENTE
+  9  GROUP BY DNI));
+
+no rows selected
+
+SQL> /* DNI de los profesores que actualmente dan clase en 2 titulaciones distintas*/
+SQL> SELECT DNI
+  2  FROM ASIGNATURA NATURAL JOIN PLAN_DOCENTE
+  3  WHERE FF IS NULL
+  4  GROUP BY DNI
+  5  HAVING COUNT(DISTINCT T) = 2;
+
+no rows selected
+
+SQL> SELECT DNI FROM ASIGNATURA NATURAL JOIN PLAN_DOCENTE
+  2  GROUP BY DNI
+  3  HAVING COUNT(DISTINCT T) = 2;
+
+       DNI                                                                                                                                            
+----------                                                                                                                                            
+      4444                                                                                                                                            
+
+SQL> SPOOL OFF;
