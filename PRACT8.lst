@@ -548,4 +548,66 @@ SQL> GRANT SELECT
   2  ON DEPARTAMENTO
   3  TO alumno;
 
-Grant succeede
+Grant succeeded.
+
+SQL> GRANT SELECT
+  2  ON AREA
+  3  TO alumno;
+
+Grant succeeded.
+
+SQL> GRANT SELECT
+  2  ON ASIGNATURA
+  3  TO alumno;
+
+Grant succeeded.
+
+SQL> GRANT SELECT
+  2  ON TITULACION
+  3  TO alumno;
+
+Grant succeeded.
+
+SQL> /*27 ariiba*/
+SQL> /*28*/
+SQL> GRANT INSERT, UPDATE, DELETE
+  2  ON DEPARTAMENTO, AREA
+  3  TO alumno;
+ON DEPARTAMENTO, AREA
+               *
+ERROR at line 2:
+ORA-00905: missing keyword 
+
+
+SQL> GRANT INSERT, UPDATE, DELETE
+  2  ON DEPARTAMENTO
+  3  TO alumno;
+
+Grant succeeded.
+
+SQL> GRANT INSERT, UPDATE, DELETE
+  2  ON AREA
+  3  TO alumno;
+
+Grant succeeded.
+
+SQL> GRANT UPDATE
+  2  ON ASIGNATURA
+  3  TO alumno;
+
+Grant succeeded.
+
+SQL> GRANT UPDATE
+  2  ON TITULACION
+  3  TO alumno;
+
+Grant succeeded.
+
+SQL> /* 29 */
+SQL> COMMIT WORK;
+
+Commit complete.
+
+SQL> HOST
+
+SQL> spool off;
