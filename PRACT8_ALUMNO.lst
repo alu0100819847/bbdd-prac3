@@ -1,0 +1,163 @@
+SQL> /* 31*/
+SQL> SELECT *
+  2  FROM ALU0100819847.DEPARTAMENTO;
+
+        CD D                                                                    
+---------- ------------------------------------------------------------         
+         1 ANALISIS MATEMATICO                                                  
+         2 ASTROFISICA                                                          
+         3 ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                   
+         4 MATEMATICA FUNDAMENTAL                                               
+
+SQL> /* 32*/
+SQL> SELECT *
+  2  FROM ALU0100819847.PROFESOR;
+FROM ALU0100819847.PROFESOR
+                   *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> /* 33 */
+SQL> INSERT INTO ALU0100819847.DEPARTAMENTO
+  2  VALUES(5, 'ECONOMIA');
+
+1 row created.
+
+SQL> /*34*/
+SQL> UPDATE ALU0100819847.DEPARTAMENTO
+  2  SET D = 'ECONOMIA APLICADA'
+  3  WHERE CD = 5;
+
+1 row updated.
+
+SQL> /* 35 */
+SQL> UPDATE ALU0100819847.TITULACION
+  2  
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT *
+  2  FROM ALU0100819847.TITULACION;
+
+T      FAC                                                                      
+------ ------------------------------------------------------------             
+GF     FISICA                                                                   
+GM     MATEMATICAS                                                              
+GII    INFORMATICA                                                              
+MII    INFORMATICA                                                              
+
+SQL> UPDATE ALU0100819847.TITULACION
+  2  SET FAC = ETSII
+  3  
+SQL> 
+SQL> 
+SQL> 
+SQL> UPDATE ALU0100819847.TITULACION
+  2  SET FAC = 'ETSII'
+  3  WHERE T = 'GII';
+
+1 row updated.
+
+SQL> /* 36*/
+SQL> DELETE FROM ALU0100819847.TITULACION
+  2  WHERE T = 'GII';
+DELETE FROM ALU0100819847.TITULACION
+                          *
+ERROR at line 1:
+ORA-01031: insufficient privileges 
+
+
+SQL> /* 37 */
+SQL> ROLLBACK WORK;
+
+Rollback complete.
+
+SQL> /*38*/
+SQL> SPOOL
+currently spooling to PRACT8_ALUMNO.lst
+SQL> CREATE VIEW VISTA3
+  2  AS (SELECT A, CAR
+  3  FROM ALU0100819847.ASIGNATURA);
+CREATE VIEW VISTA3
+            *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> SELECT *
+  2  FROM VISTA3;
+
+A                                                         CAR                   
+-------------------------------------------------- ----------                   
+ESTADISTICA                                                 6                   
+BASES DE DATOS                                              7                   
+INTELIGENCIA ARTIFICIAL                                     4                   
+ALMACENES DE DATOS                                          7                   
+MINERIA DE DATOS                                            7                   
+INFORMATICA BASICA                                          7                   
+ALGEBRA                                                     1                   
+CALCULO                                                     8                   
+OPTIMIZACION                                                6                   
+GESTION DE RIESGOS                                          4                   
+ASTRONOMIA                                                  3                   
+
+A                                                         CAR                   
+-------------------------------------------------- ----------                   
+ENSENANZA DE LA MATEMATICA                                  5                   
+ANALISIS COMPLEJO                                           2                   
+
+13 rows selected.
+
+SQL> CREATE VIEW VIST3
+  2  AS (SELECT A, CAR
+  3  FROM ALU0100819847.ASIGNATURA);
+
+View created.
+
+SQL> SELECT *
+  2  FROM VIST3;
+
+A                                                         CAR                   
+-------------------------------------------------- ----------                   
+ESTADISTICA                                                 6                   
+BASES DE DATOS                                              7                   
+INTELIGENCIA ARTIFICIAL                                     4                   
+ALMACENES DE DATOS                                          7                   
+MINERIA DE DATOS                                            7                   
+INFORMATICA BASICA                                          7                   
+ALGEBRA                                                     1                   
+CALCULO                                                     8                   
+OPTIMIZACION                                                6                   
+GESTION DE RIESGOS                                          4                   
+ASTRONOMIA                                                  3                   
+
+A                                                         CAR                   
+-------------------------------------------------- ----------                   
+ENSENANZA DE LA MATEMATICA                                  5                   
+ANALISIS COMPLEJO                                           2                   
+
+13 rows selected.
+
+SQL> /*39*/
+SQL> DROP VIEW VIST3;
+
+View dropped.
+
+SQL> SELECT *
+  2  FROM VISTA3;
+FROM VISTA3
+     *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> DROP TABLE ALU0100819847.ASIGNATURA;
+DROP TABLE ALU0100819847.ASIGNATURA
+                         *
+ERROR at line 1:
+ORA-01031: insufficient privileges 
+
+
+SQL> SPOOL OFF;
