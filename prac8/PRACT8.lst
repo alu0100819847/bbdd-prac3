@@ -1,0 +1,268 @@
+SQL> SPOOL
+currently spooling to PRACT8.lst
+SQL> /* 1 */
+SQL> CREATE TABLE TITULACION
+  2  (T CHAR(4) PRIMARY KEY,
+  3  FAC VARCHAR2(60));
+
+Table created.
+
+SQL> COMMIT WORK;
+
+Commit complete.
+
+SQL> INSERT INTO TITULACION(T)
+  2  SELECT DISTINCT T
+  3  FROM ASIGNATURA;
+
+4 rows created.
+
+SQL> SELECT * FROM TITULACION;
+
+T    FAC                                                                                                                                              
+---- ------------------------------------------------------------                                                                                     
+GF                                                                                                                                                    
+GM                                                                                                                                                    
+GII                                                                                                                                                   
+MII                                                                                                                                                   
+
+SQL> COMMIT WORK;
+
+Commit complete.
+
+SQL> /* 3 */
+SQL> SELECT *
+  2  FROM TITULACION;
+
+T    FAC                                                                                                                                              
+---- ------------------------------------------------------------                                                                                     
+GF                                                                                                                                                    
+GM                                                                                                                                                    
+GII                                                                                                                                                   
+MII                                                                                                                                                   
+
+SQL> /* 4 */
+SQL> UPDATE TITULACION
+  2  SET FAC = &facultad
+  3  WHERE T = &titulacion;
+Enter value for facultad: INFORMATICA
+old   2: SET FAC = &facultad
+new   2: SET FAC = INFORMATICA
+Enter value for titulacion: GII
+old   3: WHERE T = &titulacion
+new   3: WHERE T = GII
+WHERE T = GII
+          *
+ERROR at line 3:
+ORA-00904: "GII": invalid identifier 
+
+
+SQL> UPDATE TITULACION
+  2  SET FAC = &facultad
+  3  WHERE T = &titulacion;
+Enter value for facultad: INFORMATICA
+old   2: SET FAC = &facultad
+new   2: SET FAC = INFORMATICA
+Enter value for titulacion: 
+SQL> 
+SQL> SELECT * FROM TITULACION
+  2  ;
+
+T    FAC                                                                                                                                              
+---- ------------------------------------------------------------                                                                                     
+GF                                                                                                                                                    
+GM                                                                                                                                                    
+GII                                                                                                                                                   
+MII                                                                                                                                                   
+
+SQL> UPDATE TITULACION
+  2  SET FAC = &facultad
+  3  WHERE T = &titulacion;
+Enter value for facultad: 'INFORMATICA'
+old   2: SET FAC = &facultad
+new   2: SET FAC = 'INFORMATICA'
+Enter value for titulacion: 'GII'
+old   3: WHERE T = &titulacion
+new   3: WHERE T = 'GII'
+
+1 row updated.
+
+SQL> UPDATE TITULACION
+  2  SET FAC = &facultad
+  3  WHERE T = &titulacion;
+Enter value for facultad: 'INFORMATICA'
+old   2: SET FAC = &facultad
+new   2: SET FAC = 'INFORMATICA'
+Enter value for titulacion: 'MII'
+old   3: WHERE T = &titulacion
+new   3: WHERE T = 'MII'
+
+1 row updated.
+
+SQL> UPDATE TITULACION
+  2  SET FAC = &facultad
+  3  WHERE T = &titulacion;
+Enter value for facultad: MATEMATICAS
+old   2: SET FAC = &facultad
+new   2: SET FAC = MATEMATICAS
+Enter value for titulacion: 'GM'
+old   3: WHERE T = &titulacion
+new   3: WHERE T = 'GM'
+SET FAC = MATEMATICAS
+          *
+ERROR at line 2:
+ORA-00904: "MATEMATICAS": invalid identifier 
+
+
+SQL> UPDATE TITULACION
+  2  SET FAC = &facultad
+  3  WHERE T = &titulacion;
+Enter value for facultad: 'MATEMATICAS'
+old   2: SET FAC = &facultad
+new   2: SET FAC = 'MATEMATICAS'
+Enter value for titulacion: 'GM'
+old   3: WHERE T = &titulacion
+new   3: WHERE T = 'GM'
+
+1 row updated.
+
+SQL> SELECT * FROM TITULACION;
+
+T    FAC                                                                                                                                              
+---- ------------------------------------------------------------                                                                                     
+GF                                                                                                                                                    
+GM   MATEMATICAS                                                                                                                                      
+GII  INFORMATICA                                                                                                                                      
+MII  INFORMATICA                                                                                                                                      
+
+SQL> UPDATE TITULACION
+  2  SET FAC = &facultad
+  3  WHERE T = &titulacion;
+Enter value for facultad: 'FISICA'
+old   2: SET FAC = &facultad
+new   2: SET FAC = 'FISICA'
+Enter value for titulacion: 'GF'
+old   3: WHERE T = &titulacion
+new   3: WHERE T = 'GF'
+
+1 row updated.
+
+SQL> SELECT *
+  2  FROM TITULACION;
+
+T    FAC                                                                                                                                              
+---- ------------------------------------------------------------                                                                                     
+GF   FISICA                                                                                                                                           
+GM   MATEMATICAS                                                                                                                                      
+GII  INFORMATICA                                                                                                                                      
+MII  INFORMATICA                                                                                                                                      
+
+SQL> COMMIT WORK;
+
+Commit complete.
+
+SQL> CREATE SYNONYM TIT FOR TITULACION;
+
+Synonym created.
+
+SQL> /*6*/
+SQL> SELECT *
+  2  FROM TIT;
+
+T    FAC                                                                                                                                              
+---- ------------------------------------------------------------                                                                                     
+GF   FISICA                                                                                                                                           
+GM   MATEMATICAS                                                                                                                                      
+GII  INFORMATICA                                                                                                                                      
+MII  INFORMATICA                                                                                                                                      
+
+SQL> COMMIT WORK
+  2  ;
+
+Commit complete.
+
+SQL> ALTER TABLE ASIGNATURA
+  2  ADD CONSTRAINT FK_ASIGNATURA_TITULACION
+  3  FOREIGN KEY (T) REFERENCES TITULACION ON DELETE CASCADE;
+
+Table altered.
+
+SQL> COMMIT WORK;
+
+Commit complete.
+
+SQL> /*8*/
+SQL> ALTER TABLE TITULACION
+  2  DISABLE CONSTRAIT FK_ASIGNATURA_TITULACION;
+DISABLE CONSTRAIT FK_ASIGNATURA_TITULACION
+        *
+ERROR at line 2:
+ORA-00905: missing keyword 
+
+
+SQL> ALTER TABLE TITULACION
+  2  DISABLE CONSTRAINT FK_ASIGNATURA_TITULACION;
+ALTER TABLE TITULACION
+*
+ERROR at line 1:
+ORA-02431: cannot disable constraint (FK_ASIGNATURA_TITULACION) - no such constraint 
+
+
+SQL> ALTER TABLE TITULACION
+  2  
+SQL> 
+SQL> ALTER TABLE ASIGNATURA
+  2  DISABLE CONSTRAINT FK_ASIGNATURA_TITULACION;
+
+Table altered.
+
+SQL> COMMIT WORK;
+
+Commit complete.
+
+SQL> ALTER TABLE TITULACION
+  2  MODIFY (T CHAR(6));
+
+Table altered.
+
+SQL> COMMIT WORK;
+
+Commit complete.
+
+SQL> ALTER TABLE TITULACION
+  2  ENABLE CONSTRAINT FK_ASIGNATURA_TITULACION;
+ALTER TABLE TITULACION
+*
+ERROR at line 1:
+ORA-02430: cannot enable constraint (FK_ASIGNATURA_TITULACION) - no such constraint 
+
+
+SQL> ALTER TABLE ASIGNATURA
+  2  ENABLE CONSTRAINT FK_ASIGNATURA_TITULACION;
+
+Table altered.
+
+SQL> DESCRIBE ASIGNATURA;
+ Name                                                                                Null?    Type
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ CAS                                                                                 NOT NULL NUMBER(3)
+ A                                                                                   NOT NULL VARCHAR2(50)
+ T                                                                                   NOT NULL CHAR(4)
+ CUR                                                                                          NUMBER(1)
+ CAR                                                                                          NUMBER(3)
+ CT                                                                                           NUMBER(3,1)
+ CP                                                                                           NUMBER(3,1)
+ CL                                                                                           NUMBER(3,1)
+
+SQL> 
+SQL> 
+SQL> 
+SQL> commit work;
+
+Commit complete.
+
+SQL> host
+
+SQL> spool
+currently spooling to PRACT8.lst
+SQL> spool off;

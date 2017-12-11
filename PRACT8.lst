@@ -266,3 +266,286 @@ SQL> host
 SQL> spool
 currently spooling to PRACT8.lst
 SQL> spool off;
+SQL> SPOOL
+currently spooling to PRACT8.lst
+SQL> CREATE VIEW VISTA1
+  2  AS ( SELECT CAS, A, T, CUR, CAR
+  3  FROM ASIGNATURA);
+
+View created.
+
+SQL> SELECT * FROM VISTA1;
+
+       CAS A                                                  T           CUR        CAR                                                              
+---------- -------------------------------------------------- ---- ---------- ----------                                                              
+         1 BASES DE DATOS                                     GII           3          7                                                              
+         2 INTELIGENCIA ARTIFICIAL                            GII           3          4                                                              
+         3 ALMACENES DE DATOS                                 MII           1          7                                                              
+         4 MINERIA DE DATOS                                   MII           1          7                                                              
+         5 INFORMATICA BASICA                                 GII           1          7                                                              
+         6 ALGEBRA                                            GII           1          1                                                              
+         7 CALCULO                                            GII           1          8                                                              
+         8 OPTIMIZACION                                       GII           1          6                                                              
+         9 GESTION DE RIESGOS                                 GII           3          4                                                              
+        10 ASTRONOMIA                                         GF            2          3                                                              
+        11 ENSENANZA DE LA MATEMATICA                         GM            2          5                                                              
+        12 ANALISIS COMPLEJO                                  GM            4          2                                                              
+
+12 rows selected.
+
+SQL> /*10 ARRIBA*/
+SQL> /*11*/
+SQL> INSERT INTO VISTA1
+  2  VALUES(13, 'ESTADISTICA','GII', 3, 7);
+INSERT INTO VISTA1
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (ALU0100819847.FK_ASIGNATURA_TITULACION) violated - parent key not found 
+
+
+SQL> ALTER TABLE ASIGNATURA
+  2  DISABLE CONSTRAINT FK_ASIGNATURA_TITULACION;
+
+Table altered.
+
+SQL> INSERT INTO VISTA1
+  2  VALUES(13, 'ESTADISTICA','GII', 3, 7);
+
+1 row created.
+
+SQL> ALTER TABLE ASIGNATURA
+  2  ENABLE CONSTRAINT FK_ASIGNATURA_TITULACION;
+
+Table altered.
+
+SQL> SELECT *
+  2  FROM VISTA1;
+
+       CAS A                                                  T           CUR        CAR                                                              
+---------- -------------------------------------------------- ---- ---------- ----------                                                              
+        13 ESTADISTICA                                        GII           3          7                                                              
+         1 BASES DE DATOS                                     GII           3          7                                                              
+         2 INTELIGENCIA ARTIFICIAL                            GII           3          4                                                              
+         3 ALMACENES DE DATOS                                 MII           1          7                                                              
+         4 MINERIA DE DATOS                                   MII           1          7                                                              
+         5 INFORMATICA BASICA                                 GII           1          7                                                              
+         6 ALGEBRA                                            GII           1          1                                                              
+         7 CALCULO                                            GII           1          8                                                              
+         8 OPTIMIZACION                                       GII           1          6                                                              
+         9 GESTION DE RIESGOS                                 GII           3          4                                                              
+        10 ASTRONOMIA                                         GF            2          3                                                              
+        11 ENSENANZA DE LA MATEMATICA                         GM            2          5                                                              
+        12 ANALISIS COMPLEJO                                  GM            4          2                                                              
+
+13 rows selected.
+
+SQL> SELECT *
+  2  FROM ASIGNATURA;
+
+       CAS A                                                  T           CUR        CAR         CT         CP         CL                             
+---------- -------------------------------------------------- ---- ---------- ---------- ---------- ---------- ----------                             
+        13 ESTADISTICA                                        GII           3          7          0          0          0                             
+         1 BASES DE DATOS                                     GII           3          7          3        1.5        1.5                             
+         2 INTELIGENCIA ARTIFICIAL                            GII           3          4        1.5        1.5          3                             
+         3 ALMACENES DE DATOS                                 MII           1          7        1.5          0        1.5                             
+         4 MINERIA DE DATOS                                   MII           1          7        1.5          0        1.5                             
+         5 INFORMATICA BASICA                                 GII           1          7          3        1.5        1.5                             
+         6 ALGEBRA                                            GII           1          1          3          3          0                             
+         7 CALCULO                                            GII           1          8          3          3          0                             
+         8 OPTIMIZACION                                       GII           1          6          3        1.5        1.5                             
+         9 GESTION DE RIESGOS                                 GII           3          4          3          0          3                             
+        10 ASTRONOMIA                                         GF            2          3          3        1.5        1.5                             
+        11 ENSENANZA DE LA MATEMATICA                         GM            2          5          6          0          0                             
+        12 ANALISIS COMPLEJO                                  GM            4          2        4.5          3          0                             
+
+13 rows selected.
+
+SQL> /*12 Y 13 ARRIBA*/
+SQL> /* 14*/
+SQL> UPDATE VISTA1
+  2  SET CAR =6
+  3  WHERE CAS = 13;
+
+1 row updated.
+
+SQL> /*15*/
+SQL> SELECT *
+  2  FROM VISTA1;
+
+       CAS A                                                  T           CUR        CAR                                                              
+---------- -------------------------------------------------- ---- ---------- ----------                                                              
+        13 ESTADISTICA                                        GII           3          6                                                              
+         1 BASES DE DATOS                                     GII           3          7                                                              
+         2 INTELIGENCIA ARTIFICIAL                            GII           3          4                                                              
+         3 ALMACENES DE DATOS                                 MII           1          7                                                              
+         4 MINERIA DE DATOS                                   MII           1          7                                                              
+         5 INFORMATICA BASICA                                 GII           1          7                                                              
+         6 ALGEBRA                                            GII           1          1                                                              
+         7 CALCULO                                            GII           1          8                                                              
+         8 OPTIMIZACION                                       GII           1          6                                                              
+         9 GESTION DE RIESGOS                                 GII           3          4                                                              
+        10 ASTRONOMIA                                         GF            2          3                                                              
+        11 ENSENANZA DE LA MATEMATICA                         GM            2          5                                                              
+        12 ANALISIS COMPLEJO                                  GM            4          2                                                              
+
+13 rows selected.
+
+SQL> CREATE VIEW VISTA2
+  2  AS (SELECT DNI, A, T, CUR, CAR
+  3  FROM PLAN_DOCENTE NATURAL JOIN VISTA1);
+
+View created.
+
+SQL> /*18*/
+SQL> SELECT *
+  2  FROM VISTA2;
+
+       DNI A                                                  T           CUR        CAR                                                              
+---------- -------------------------------------------------- ---- ---------- ----------                                                              
+      4444 BASES DE DATOS                                     GII           3          7                                                              
+      3333 INTELIGENCIA ARTIFICIAL                            GII           3          4                                                              
+      1010 INTELIGENCIA ARTIFICIAL                            GII           3          4                                                              
+      2222 ALMACENES DE DATOS                                 MII           1          7                                                              
+      2020 ALMACENES DE DATOS                                 MII           1          7                                                              
+      4444 MINERIA DE DATOS                                   MII           1          7                                                              
+      2222 MINERIA DE DATOS                                   MII           1          7                                                              
+      4444 INFORMATICA BASICA                                 GII           1          7                                                              
+      5555 ALGEBRA                                            GII           1          1                                                              
+      9999 CALCULO                                            GII           1          8                                                              
+      3030 OPTIMIZACION                                       GII           1          6                                                              
+      1111 OPTIMIZACION                                       GII           1          6                                                              
+      1111 OPTIMIZACION                                       GII           1          6                                                              
+      3333 GESTION DE RIESGOS                                 GII           3          4                                                              
+      1010 GESTION DE RIESGOS                                 GII           3          4                                                              
+      1010 GESTION DE RIESGOS                                 GII           3          4                                                              
+      6666 ASTRONOMIA                                         GF            2          3                                                              
+      8888 ENSENANZA DE LA MATEMATICA                         GM            2          5                                                              
+      7777 ANALISIS COMPLEJO                                  GM            4          2                                                              
+
+19 rows selected.
+
+SQL> UPDATE VISTA2
+  2  SET A = BBDD
+  3  WHERE
+  4  
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> UPDATE VISTA2
+  2  SET A = 'BBDD'
+  3  WHERE A = 'BASES DE DATOS';
+SET A = 'BBDD'
+    *
+ERROR at line 2:
+ORA-01779: cannot modify a column which maps to a non key-preserved table 
+
+
+SQL> /*20*/
+SQL> DESCRIBE VISTA2;
+ Name                                                                                Null?    Type
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ DNI                                                                                 NOT NULL NUMBER(8)
+ A                                                                                   NOT NULL VARCHAR2(50)
+ T                                                                                   NOT NULL CHAR(4)
+ CUR                                                                                          NUMBER(1)
+ CAR                                                                                          NUMBER(3)
+
+SQL> /*21*/
+SQL> DROP VIEW VISTA1;
+
+View dropped.
+
+SQL> /*22*/
+SQL> SEECT *
+SP2-0042: unknown command "SEECT *" - rest of line ignored.
+SQL> FROM VISTA2;
+SP2-0734: unknown command beginning "FROM VISTA..." - rest of line ignored.
+SQL> SELECT *
+  2  FROM VISTA2;
+FROM VISTA2
+     *
+ERROR at line 2:
+ORA-04063: view "ALU0100819847.VISTA2" has errors 
+
+
+SQL> ROLLBACK WORK;
+
+Rollback complete.
+
+SQL> /*23 ARRIBA*/
+SQL> SELECT *
+  2  FROM VISTA1;
+FROM VISTA1
+     *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> /* NO EXISTE PORQUE LAS SENTENCIAS DDL REALIZAN AUTOMATICAMENTE UN COMMIT WORK ANTES Y DESPUES DE EJECUTAR LA SENTENCIA*/
+SQL> /*24*/
+SQL> CREATE INDEX1
+  2  ON PROFESOR(P);
+CREATE INDEX1
+       *
+ERROR at line 1:
+ORA-00901: invalid CREATE command 
+
+
+SQL> CREATE INDEX INDICE1
+  2  ON PROFESOR(P);
+
+Index created.
+
+SQL> SELECT INDICE1
+  2  FROM PROFESOR;
+SELECT INDICE1
+       *
+ERROR at line 1:
+ORA-00904: "INDICE1": invalid identifier 
+
+
+SQL> SELECT 'JUAN'
+  2  
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT DNI
+  2  FROM PROFESOR
+  3  WHERE INDICE1 = 'JUAN';
+WHERE INDICE1 = 'JUAN'
+      *
+ERROR at line 3:
+ORA-00904: "INDICE1": invalid identifier 
+
+
+SQL> SELECT DNI
+  2  FROM PROFESOR
+  3  WHERE P = 'JUAN';
+
+       DNI                                                                                                                                            
+----------                                                                                                                                            
+      1111                                                                                                                                            
+
+SQL> /* 25*/
+SQL> DROM INDEX INDICE1;
+SP2-0734: unknown command beginning "DROM INDEX..." - rest of line ignored.
+SQL> DROP INDEX INDICE1;
+
+Index dropped.
+
+SQL> /* 26*/
+SQL> CREATE INDEX INDICE2
+  2  ON VISTA1(CAR);
+ON VISTA1(CAR)
+   *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> GRANT SELECT
+  2  ON DEPARTAMENTO
+  3  TO alumno;
+
+Grant succeede
